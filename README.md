@@ -26,6 +26,16 @@ All firmware projects live under `firmware/`, grouped by chip.
 | `firmware/si24r1/stc15w408as-single-carrier/` | STC15W408AS / Keil C51 | **Single-carrier test demo** branched from the factory example: CW unmodulated carrier and continuous modulated TX (defaults to MOD) | `USER/SI24R1.uvproj` |
 | `firmware/si24r1/ai8051u-single-carrier/` | AI8051U (8-bit) / Keil C51 | AI8051U port of the same single-carrier test framework; `SI24R1_TEST_MODE` = 0 / 1 / 2 (defaults to 0, normal link) | `AI8051U-SI24R1.uvproj` |
 
+**Test captures** — both are SI24R1 packet-link runs, captured from two serial terminals (one TX, one RX) at 115200-8-N-1.
+
+`firmware/si24r1/ai8051u-demo/` — AI8051U, 32-byte incremental payload
+
+![AI8051U SI24R1 TX/RX log](assets/ScreenShot_2026-11-05_160920_306.png)
+
+`firmware/si24r1/stm32f103c8t6-freertos/` — STM32F103C8T6 + FreeRTOS, `SI24R1_ROLE = RX`
+
+![STM32 FreeRTOS SI24R1 TX/RX log](assets/ScreenShot_2026-11-05_174444_181.png)
+
 ### NF-04, NF-04-MI (BK2425)
 
 **Chip directory**: `firmware/bk2425/`

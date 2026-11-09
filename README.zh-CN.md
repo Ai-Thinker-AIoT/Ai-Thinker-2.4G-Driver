@@ -26,6 +26,16 @@
 | `firmware/si24r1/stc15w408as-single-carrier/` | STC15W408AS / Keil C51 | 从原厂示例派生的**单载波测试 demo**：未调制单载波 CW、连续调制发射 MOD（默认 MOD） | `USER/SI24R1.uvproj` |
 | `firmware/si24r1/ai8051u-single-carrier/` | AI8051U（8-bit）/ Keil C51 | 同一套单载波测试框架在 AI8051U 上的移植；`SI24R1_TEST_MODE` = 0 / 1 / 2（默认 0，正常链路） | `AI8051U-SI24R1.uvproj` |
 
+**实测截图** —— 以下两张均为 SI24R1 工程的双板收发串口日志（一发一收，115200-8-N-1）。
+
+`firmware/si24r1/ai8051u-demo/` — AI8051U，32 字节递增载荷
+
+![AI8051U SI24R1 双板收发日志](assets/ScreenShot_2026-11-05_160920_306.png)
+
+`firmware/si24r1/stm32f103c8t6-freertos/` — STM32F103C8T6 + FreeRTOS（`SI24R1_ROLE = RX`）
+
+![STM32 FreeRTOS SI24R1 双板收发日志](assets/ScreenShot_2026-11-05_174444_181.png)
+
 ### NF-04、NF-04-MI(BK2425)
 
 **芯片目录**：`firmware/bk2425/`
