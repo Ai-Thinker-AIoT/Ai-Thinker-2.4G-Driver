@@ -1,13 +1,13 @@
-# SI24R1 on STM32F103C8T6 + FreeRTOS
+# NF-02-PA(SI24R1) on STM32F103C8T6 + FreeRTOS
 
-基于 **STM32F103C8T6 + FreeRTOS** 控制 **SI24R1（2.4GHz 无线模块，兼容 nRF24L01+）** 的移植工程。
+基于 **STM32F103C8T6 + FreeRTOS** 控制 **NF-02-PA(SI24R1)（基于 SI24R1 芯片的 2.4GHz 无线模组，兼容 nRF24L01+）** 的移植工程。
 
 ---
 
 ## 1. 目录结构
 
 ```
-firmware/stm32f103c8t6-freertos/
+firmware/si24r1/stm32f103c8t6-freertos/
 ├── Project.uvprojx          # Keil 工程
 ├── Start/                   # 启动文件(core_cm3/system_stm32f10x/stm32f10x.h)
 ├── Library/                 # STM32F10x 标准外设库
@@ -28,7 +28,7 @@ firmware/stm32f103c8t6-freertos/
 
 ---
 
-## 2. SI24R1 引脚映射（软件 SPI，按 LoraKit 转接板实际接线）
+## 2. NF-02-PA(SI24R1) 引脚映射（软件 SPI，按 LoraKit 转接板实际接线）
 
 | 信号  | 转接板丝印  | STM32 引脚 | 方向  | 说明 |
 |-------|-------------|-----------|-------|------|
@@ -108,7 +108,7 @@ MISO   →    SPI_MISO          PA6
 IRQ    →    LORA_DIO0         PB0
 ```
 
-完整接线（含串口、LED、端口模式）见仓库根目录 [`docs/wiring.zh-CN.md`](../../docs/wiring.zh-CN.md)。
+完整接线（含串口、LED、端口模式）见仓库根目录 [`docs/wiring.zh-CN.md`](../../../docs/wiring.zh-CN.md)。
 
 ---
 
