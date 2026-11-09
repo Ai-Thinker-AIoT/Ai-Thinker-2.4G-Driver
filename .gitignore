@@ -1,0 +1,60 @@
+# ---- Keil 编译输出目录 ----
+**/Objects/
+**/Listings/
+**/output/
+**/listing/
+**/DebugConfig/
+**/Debug/
+**/Release/
+
+# ---- 编译中间文件 / 固件 ----
+*.obj
+*.o
+*.axf
+*.elf
+*.hex
+*.bin
+*.lnp
+*.plg
+*.lst
+*.m51
+*.map
+*.sct
+*.dep
+*.d
+*.crf
+*.iex
+*.build_log.htm
+*.MSG
+*.msg
+*.log
+
+# ---- Keil 用户级 / GUI 配置----
+*.uvopt
+*.uvoptx
+*.uvgui.*
+*.uvguix.*
+*.dbgconf
+
+# ---- 备份 / 临时文件 ----
+*.bak
+*.tmp
+*.orig
+*.rej
+*~
+
+# ---- 第三方工具链二进制----
+**/Toolchain/*.exe
+**/Toolchain/LIBSTC/
+**/Toolchain/Data/
+
+# ---- Python 运行产物 ----
+__pycache__/
+*.py[cod]
+
+# ---- OS / IDE ----
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
