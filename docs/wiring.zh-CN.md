@@ -1,11 +1,13 @@
-# SI24R1 接线说明
+# NF-02-PA(SI24R1) 接线说明
 
-## AI8051U（`firmware/ai8051u-demo/`、`firmware/ai8051u-single-carrier/`，Keil C51 8 位）
+本文只覆盖 `NF-02-PA(SI24R1)` 模组在 `firmware/si24r1/` 下 AI8051U 与 STM32 工程上的接线。
+
+## AI8051U（`firmware/si24r1/ai8051u-demo/`、`firmware/si24r1/ai8051u-single-carrier/`，Keil C51 8 位）
 
 通信接口：软件 SPI（P1 口） + UART1（`P_SW1` 切组 1）
 
-| SI24R1 引脚 | AI8051U 引脚 | 方向 | 说明 |
-|-------------|--------------|------|------|
+| NF-02-PA(SI24R1) 引脚 | AI8051U 引脚 | 方向 | 说明 |
+|-----------------------|--------------|------|------|
 | VCC | 3.3V | — | 必须接 3.3V，不可接 5V |
 | GND | GND | — | 共地 |
 | MOSI | P1.3 | MCU 输出 | 主机发数据 |
@@ -19,7 +21,7 @@
 
 ```
 USB转TTL RXD  ->  AI8051U P3.7（TxD，组 1）
-USB转TTL TXD  ->  AI8051U P3.6（RxD，组 1，可不接）
+USB转TTL TXD  ->  AI8051U P3.6（RxD，组 1）
 USB转TTL GND  ->  GND（共地）
 ```
 
@@ -28,7 +30,7 @@ USB转TTL GND  ->  GND（共地）
 - P2.0：心跳 / 收发指示（低电平点亮）
 - P2.0~P2.7：板载 LED 组
 
-**端口模式配置（代码内）**
+**端口模式配置**
 
 ```
 P1M1=0x03, P1M0=0x0F   P1.0/P1.1 输入（MISO/IRQ），P1.2~P1.5 推挽输出
@@ -39,12 +41,12 @@ P4M1=0x00, P4M0=0x00   P4 准双向
 
 ---
 
-## STM32F103C8T6（`firmware/stm32f103c8t6-freertos/`，FreeRTOS）
+## STM32F103C8T6（`firmware/si24r1/stm32f103c8t6-freertos/`，FreeRTOS）
 
-通信接口：软件 SPI（LoraKit 转接板引脚）
+通信接口：软件 SPI
 
-| SI24R1 引脚 | LoraKit 丝印 | STM32 引脚 | 方向 | 说明 |
-|-------------|--------------|------------|------|------|
+| NF-02-PA(SI24R1) 引脚 | LoraKit 丝印 | STM32 引脚 | 方向 | 说明 |
+|-----------------------|--------------|------------|------|------|
 | VCC | 3.3V | — | — | 必须接 3.3V，不可接 5V |
 | GND | GND | — | — | 共地 |
 | CSN | SPI_NSS | PA4 | MCU 输出 | 片选，低有效 |
@@ -54,14 +56,11 @@ P4M1=0x00, P4M0=0x00   P4 准双向
 | IRQ | LORA_DIO0 | PB0 | MCU 输入 | 中断，开漏，内部上拉 |
 | CE | CTR1 | PA11 | MCU 输出 | 芯片使能（需飞线到 CTR1） |
 
-转接板上 SI24R1 用不到的信号（悬空不接）：
-`LORA_RESET(PB14)`、`LORA_DIO1(PB1)`、`LORA_DIO4(PA0)`、`CTR2(PA12)`。
-
 **串口（调试打印，115200-8-N-1）**
 
 ```
 USB转TTL RXD  ->  STM32 PA9（USART1_TX）
-USB转TTL TXD  ->  STM32 PA10（USART1_RX，可不接）
+USB转TTL TXD  ->  STM32 PA10（USART1_RX）
 USB转TTL GND  ->  GND（共地）
 ```
 

@@ -58,3 +58,5 @@ desktop.ini
 .DS_Store
 .vscode/
 .idea/
+**/.eide/
+*.code-workspace
