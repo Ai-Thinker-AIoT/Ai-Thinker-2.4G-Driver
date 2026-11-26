@@ -7,7 +7,7 @@
 ## 1. 目录结构
 
 ```
-firmware/si24r1/stm32f103c8t6-freertos/
+si24r1/stm32f103c8t6-freertos/
 ├── Project.uvprojx          # Keil 工程
 ├── Start/                   # 启动文件(core_cm3/system_stm32f10x/stm32f10x.h)
 ├── Library/                 # STM32F10x 标准外设库
@@ -108,7 +108,7 @@ MISO   →    SPI_MISO          PA6
 IRQ    →    LORA_DIO0         PB0
 ```
 
-完整接线（含串口、LED、端口模式）见仓库根目录 [`docs/wiring.zh-CN.md`](../../../docs/wiring.zh-CN.md)。
+完整接线（含串口、LED、端口模式）见仓库根目录 [`docs/wiring.zh-CN.md`](../../docs/wiring.zh-CN.md)。
 
 ---
 

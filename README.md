@@ -6,46 +6,46 @@
 
 [![中文](https://img.shields.io/badge/中文-README-blue)](README.zh-CN.md)
 
-**Ai-Thinker 2.4G Driver** — driver and example firmware collection for the Ai-Thinker 2.4G module family, covering **4 chips** (SI24R1, BK2425, CI24R1, NRF24L01+) and **12 module models**. All firmware projects live under `firmware/`.
+**Ai-Thinker 2.4G Driver** — driver and example firmware collection for the Ai-Thinker 2.4G module family, covering **4 chips** (SI24R1, BK2425, CI24R1, NRF24L01+) and **12 module models**. Each chip has its own directory at the repository root.
 
 ---
 
 ## 1. Repository Layout
 
-All firmware projects live under `firmware/`, grouped by chip.
+Firmware projects are grouped by chip, one directory per chip at the repository root.
 
 ### NF-03, NF-01-S, NF-02-PA, NF-02-SM, NF-02-PE (SI24R1)
 
-**Chip directory**: `firmware/si24r1/`
+**Chip directory**: `si24r1/`
 
 | Directory | MCU / Toolchain | Contents | Project file |
 |-----------|-----------------|----------|--------------|
-| `firmware/si24r1/stc15w408as-demo/` | STC15W408AS / Keil C51 | **Original factory demo** for the Ai-Thinker 2.4G test board: two boards control each other's LEDs via buttons | `USER/SI24R1.uvproj` |
-| `firmware/si24r1/ai8051u-demo/` | AI8051U (8-bit) / Keil C51 | **Normal packet-link version** (baseline from the weekly-summary archive): UART logging, TX/RX self-test; no carrier test modes | `AI8051U-SI24R1.uvproj` |
-| `firmware/si24r1/stm32f103c8t6-freertos/` | STM32F103C8T6 / MDK-ARM + FreeRTOS | Software-SPI driver with heartbeat and radio tasks | `Project.uvprojx` |
-| `firmware/si24r1/stm32f103c8t6-freertos-single-carrier/` | STM32F103C8T6 / Keil ARM-GNU (arm-none-eabi-gcc) + FreeRTOS | **Single-carrier (CW) test firmware** copied from the project above: boots straight into a continuous unmodulated 2475 MHz carrier (`RF_SETUP = 0x9F`), CE held high, heartbeat task keeps running; UART banner only, no packet link | `Project.uvprojx` |
-| `firmware/si24r1/stc15w408as-single-carrier/` | STC15W408AS / Keil C51 | **Single-carrier test demo** branched from the factory example: CW unmodulated carrier and continuous modulated TX (defaults to MOD) | `USER/SI24R1.uvproj` |
-| `firmware/si24r1/ai8051u-single-carrier/` | AI8051U (8-bit) / Keil C51 | AI8051U port of the same single-carrier test framework; `SI24R1_TEST_MODE` = 0 / 1 / 2 (defaults to 1, CW) | `AI8051U-SI24R1.uvproj` |
+| `si24r1/stc15w408as-demo/` | STC15W408AS / Keil C51 | **Original factory demo** for the Ai-Thinker 2.4G test board: two boards control each other's LEDs via buttons | `USER/SI24R1.uvproj` |
+| `si24r1/ai8051u-demo/` | AI8051U (8-bit) / Keil C51 | **Normal packet-link version** (baseline from the weekly-summary archive): UART logging, TX/RX self-test; no carrier test modes | `AI8051U-SI24R1.uvproj` |
+| `si24r1/stm32f103c8t6-freertos/` | STM32F103C8T6 / MDK-ARM + FreeRTOS | Software-SPI driver with heartbeat and radio tasks | `Project.uvprojx` |
+| `si24r1/stm32f103c8t6-freertos-single-carrier/` | STM32F103C8T6 / Keil ARM-GNU (arm-none-eabi-gcc) + FreeRTOS | **Single-carrier (CW) test firmware** copied from the project above: boots straight into a continuous unmodulated 2475 MHz carrier (`RF_SETUP = 0x9F`), CE held high, heartbeat task keeps running; UART banner only, no packet link | `Project.uvprojx` |
+| `si24r1/stc15w408as-single-carrier/` | STC15W408AS / Keil C51 | **Single-carrier test demo** branched from the factory example: CW unmodulated carrier and continuous modulated TX (defaults to MOD) | `USER/SI24R1.uvproj` |
+| `si24r1/ai8051u-single-carrier/` | AI8051U (8-bit) / Keil C51 | AI8051U port of the same single-carrier test framework; `SI24R1_TEST_MODE` = 0 / 1 / 2 (defaults to 1, CW) | `AI8051U-SI24R1.uvproj` |
 
 **Test captures** — the two screenshots below are SI24R1 packet-link runs, captured from two serial terminals (one TX, one RX) at 115200-8-N-1.
 
-`firmware/si24r1/ai8051u-demo/` — AI8051U, 32-byte incremental payload
+`si24r1/ai8051u-demo/` — AI8051U, 32-byte incremental payload
 
 ![AI8051U SI24R1 TX/RX log](assets/ScreenShot_2026-11-05_160920_306.png)
 
-`firmware/si24r1/stm32f103c8t6-freertos/` — STM32F103C8T6 + FreeRTOS, `SI24R1_ROLE = RX`
+`si24r1/stm32f103c8t6-freertos/` — STM32F103C8T6 + FreeRTOS, `SI24R1_ROLE = RX`
 
 ![STM32 FreeRTOS SI24R1 TX/RX log](assets/ScreenShot_2026-11-05_174444_181.png)
 
-`firmware/si24r1/stm32f103c8t6-freertos-single-carrier/` prints a one-shot boot banner over USART1 (`CW mode: carrier on, forever` / `RF = 2475 MHz, RF_SETUP = 0x9F`) and then emits the carrier; there is no packet log to capture — verify it on a spectrum analyser instead.
+`si24r1/stm32f103c8t6-freertos-single-carrier/` prints a one-shot boot banner over USART1 (`CW mode: carrier on, forever` / `RF = 2475 MHz, RF_SETUP = 0x9F`) and then emits the carrier; there is no packet log to capture — verify it on a spectrum analyser instead.
 
 **Spectrum captures** — narrow-span swept measurements on a Keysight swept SA (Ref 30 dBm, 10 dB/div, 40 dB attenuation), both around the 2475 MHz carrier.
 
-`firmware/si24r1/stm32f103c8t6-freertos-single-carrier/` — center 2.47498 GHz, span 25 kHz, RBW/VBW 240 Hz; marker `Mkr1 2.474976620 GHz` reads **20.50 dBm**. A single spectral line: unmodulated carrier, OBW only tens of kHz.
+`si24r1/stm32f103c8t6-freertos-single-carrier/` — center 2.47498 GHz, span 25 kHz, RBW/VBW 240 Hz; marker `Mkr1 2.474976620 GHz` reads **20.50 dBm**. A single spectral line: unmodulated carrier, OBW only tens of kHz.
 
 ![STM32 CW carrier, 25 kHz span](assets/3.jpg)
 
-`firmware/si24r1/ai8051u-single-carrier/` — center 2.47498 GHz, span 223.7 kHz, RBW/VBW 2.2 kHz (`PNO Wide`); marker reads **20.16 dBm**. Besides the main line there are discrete side lines, so this trace is **not** a clean single-line CW — check `SI24R1_TEST_MODE` on the board before using it as a CW reference.
+`si24r1/ai8051u-single-carrier/` — center 2.47498 GHz, span 223.7 kHz, RBW/VBW 2.2 kHz (`PNO Wide`); marker reads **20.16 dBm**. Besides the main line there are discrete side lines, so this trace is **not** a clean single-line CW — check `SI24R1_TEST_MODE` on the board before using it as a CW reference.
 
 ![AI8051U carrier, 223.7 kHz span](assets/4.jpg)
 
@@ -53,27 +53,27 @@ All firmware projects live under `firmware/`, grouped by chip.
 
 ### NF-04, NF-04-MI (BK2425)
 
-**Chip directory**: `firmware/bk2425/`
+**Chip directory**: `bk2425/`
 
 | Directory | MCU / Toolchain | Contents | Project file |
 |-----------|-----------------|----------|--------------|
-| `firmware/bk2425/stc15w408as-demo/` | STC15W408AS / Keil C51 | BK2425 factory STC15 example (software-SPI driver, button/LED demo) | `USER/BK2425.uvproj` |
+| `bk2425/stc15w408as-demo/` | STC15W408AS / Keil C51 | BK2425 factory STC15 example (software-SPI driver, button/LED demo) | `USER/BK2425.uvproj` |
 
 ### NF-05, NF-05-S (CI24R1)
 
-**Chip directory**: `firmware/ci24r1/`
+**Chip directory**: `ci24r1/`
 
 | Directory | MCU / Toolchain | Contents | Project file |
 |-----------|-----------------|----------|--------------|
-| `firmware/ci24r1/stc15w408as-demo/` | STC15W408AS / Keil C51 | CI24R1 factory STC15 example (software-SPI driver, button/LED demo) | `USER/CI24R1.uvproj` |
+| `ci24r1/stc15w408as-demo/` | STC15W408AS / Keil C51 | CI24R1 factory STC15 example (software-SPI driver, button/LED demo) | `USER/CI24R1.uvproj` |
 
 ### NF-01-N, NF-02-PA, NF-02-PE (NRF24L01+)
 
-**Chip directory**: `firmware/nrf24l01p/`
+**Chip directory**: `nrf24l01p/`
 
 | Directory | MCU / Toolchain | Contents | Project file |
 |-----------|-----------------|----------|--------------|
-| `firmware/nrf24l01p/stc15w408as-demo/` | STC15W408AS / Keil C51 | NRF24L01+ factory STC15 example (software-SPI driver, button/LED demo) | `USER/nRF24L01P.uvproj` |
+| `nrf24l01p/stc15w408as-demo/` | STC15W408AS / Keil C51 | NRF24L01+ factory STC15 example (software-SPI driver, button/LED demo) | `USER/nRF24L01P.uvproj` |
 
 ---
 
@@ -100,12 +100,12 @@ Pin mapping below uses `NF-02-PA(SI24R1)` as the reference module (SI24R1 based,
 
 | Project | RF_CH | Frequency | Rate / Power (`RF_SETUP`) | Auto retransmit | CRC |
 |---------|-------|-----------|---------------------------|-----------------|-----|
-| `firmware/si24r1/stc15w408as-demo/` | 40 | 2440 MHz | 2 Mbps / +7 dBm (`0x0F`) | 250us+86us x10 (`0x0A`) | 16 bit |
-| `firmware/si24r1/ai8051u-demo/` | 40 | 2440 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x10 (`0x1A`) | 16 bit |
-| `firmware/si24r1/stm32f103c8t6-freertos/` | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x15 (`0x1F`) | 16 bit |
-| `firmware/si24r1/stm32f103c8t6-freertos-single-carrier/` | 75 | 2475 MHz | 2 Mbps / +7 dBm CW (`0x9F`) | disabled | 16 bit |
-| `firmware/si24r1/ai8051u-single-carrier/` (`TEST_MODE=0`) | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x15 (`0x1F`) | 16 bit |
-| `firmware/si24r1/*-single-carrier/` (`TEST_MODE=1/2`, 8-bit projects only) | 75 | 2475 MHz | 2 Mbps / +7 dBm (`0x0F`; CW adds `CONT_WAVE+PLL_LOCK` -> `0x9F`) | disabled | 16 bit |
+| `si24r1/stc15w408as-demo/` | 40 | 2440 MHz | 2 Mbps / +7 dBm (`0x0F`) | 250us+86us x10 (`0x0A`) | 16 bit |
+| `si24r1/ai8051u-demo/` | 40 | 2440 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x10 (`0x1A`) | 16 bit |
+| `si24r1/stm32f103c8t6-freertos/` | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x15 (`0x1F`) | 16 bit |
+| `si24r1/stm32f103c8t6-freertos-single-carrier/` | 75 | 2475 MHz | 2 Mbps / +7 dBm CW (`0x9F`) | disabled | 16 bit |
+| `si24r1/ai8051u-single-carrier/` (`TEST_MODE=0`) | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x15 (`0x1F`) | 16 bit |
+| `si24r1/*-single-carrier/` (`TEST_MODE=1/2`, 8-bit projects only) | 75 | 2475 MHz | 2 Mbps / +7 dBm (`0x0F`; CW adds `CONT_WAVE+PLL_LOCK` -> `0x9F`) | disabled | 16 bit |
 
 Common settings: address `0A 01 07 0E 01` (5 bytes), 32-byte payload, auto-ACK on pipe 0, 16-bit CRC.
 
@@ -113,9 +113,9 @@ Common settings: address `0A 01 07 0E 01` (5 bytes), 32-byte payload, auto-ACK o
 
 ## 4. Single-Carrier Test Modes (CW / MOD)
 
-- `firmware/si24r1/ai8051u-single-carrier/Source/SI24R1.h` — `SI24R1_TEST_MODE` defaults to **1** (CW)
-- `firmware/si24r1/stc15w408as-single-carrier/SI24R1/SI24R1.h` — `SI24R1_TEST_MODE` defaults to **2** (continuous modulated TX)
-- `firmware/si24r1/stm32f103c8t6-freertos-single-carrier/` — no mode switch at all: it is a **CW-only** build (`main.c` calls `SI24R1_CW_Mode()` once and returns to the scheduler). Carrier is set by `RF_CH_CW` (75 -> 2475 MHz) and `RF_SETUP_CW` (`0x9F`) in `Hardware/SI24R1/SI24R1.h`; change the channel/power there. For MOD, reuse the pseudo-random FIFO feeding loop from the AI8051U project and clear `EN_AA` / `SETUP_RETR`.
+- `si24r1/ai8051u-single-carrier/Source/SI24R1.h` — `SI24R1_TEST_MODE` defaults to **1** (CW)
+- `si24r1/stc15w408as-single-carrier/SI24R1/SI24R1.h` — `SI24R1_TEST_MODE` defaults to **2** (continuous modulated TX)
+- `si24r1/stm32f103c8t6-freertos-single-carrier/` — no mode switch at all: it is a **CW-only** build (`main.c` calls `SI24R1_CW_Mode()` once and returns to the scheduler). Carrier is set by `RF_CH_CW` (75 -> 2475 MHz) and `RF_SETUP_CW` (`0x9F`) in `Hardware/SI24R1/SI24R1.h`; change the channel/power there. For MOD, reuse the pseudo-random FIFO feeding loop from the AI8051U project and clear `EN_AA` / `SETUP_RETR`.
 
 ```c
 #define SI24R1_TEST_MODE  0   // 0 = normal packet link
@@ -143,6 +143,6 @@ Common settings: address `0A 01 07 0E 01` (5 bytes), 32-byte payload, auto-ACK o
 | STM32 project (`stm32f103c8t6-freertos-single-carrier/`) | Keil MDK with the **ARM-GNU** (arm-none-eabi-gcc) toolset | Open `Project.uvprojx`; startup comes from `gcc/startup_stm32f103xb.s`, link map from `gcc/stm32f103c8.ld`, `gcc/syscalls.c` supplies newlib stubs; `CreateHexFile=1` also emits `Project.hex` |
 
 - AI8051U projects default to TX: set `SI24R1_ROLE` to `SI24R1_ROLE_RX` in `SI24R1.h` to build the receiver firmware (or override via a preprocessor define).
-- `firmware/si24r1/ai8051u-single-carrier/` defaults to `SI24R1_TEST_MODE = 1` (CW); set it to 0 for the normal packet link or 2 for MOD before building. `firmware/si24r1/stc15w408as-single-carrier/` defaults to MOD.
+- `si24r1/ai8051u-single-carrier/` defaults to `SI24R1_TEST_MODE = 1` (CW); set it to 0 for the normal packet link or 2 for MOD before building. `si24r1/stc15w408as-single-carrier/` defaults to MOD.
 - STM32 defaults to RX: change `SI24R1_ROLE` in `Hardware/SI24R1/SI24R1.h`; one board must transmit, the other receive. No fromelf post-build step is configured, so the build produces only `.axf`; enable one under Options for Target -> User -> After Build if a `.hex` file is needed.
 - The STM32 CW project ignores `SI24R1_ROLE` at runtime (it never enters RX/TX packet mode) and uses FreeRTOS heap `12 * 1024` instead of 17 KB; `configCHECK_HANDLER_INSTALLATION` is explicitly `0` because that firmware has not been re-validated on hardware. If you re-enable it, define `configASSERT()` as well.

@@ -84,7 +84,7 @@ stm32f103c8t6-freertos-single-carrier/
 
 Keysight 扫频式频谱仪，Ref 30 dBm / 10 dB/div / 衰减 40 dB，中心 2.47498 GHz、Span 25 kHz、RBW = VBW = 240 Hz，标记 `Mkr1 2.474976620 GHz` 读数 **20.50 dBm**。
 
-![STM32 CW 载波窄带扫频](../../../assets/3.jpg)
+![STM32 CW 载波窄带扫频](../../assets/3.jpg)
 
 - 25 kHz 窄带内只有一根谱线，符合 CW 单载波预期；占用带宽只有几十 kHz，**不能**用这张图去论证 OBW。
 - 状态栏有 `RF Alignment Failure` 告警，说明仪器未完成 RF 校准，20.50 dBm 只能当定性参考，正式测功率前先跑 Auto Align。

@@ -68,7 +68,7 @@ ai8051u-single-carrier/
 
 Keysight 扫频式频谱仪，Ref 30 dBm / 10 dB/div / 衰减 40 dB，中心 2.47498 GHz、Span 223.7 kHz、RBW = VBW = 2.2 kHz（PNO Wide），标记 `Mkr1 2.47498159 GHz` 读数 **20.16 dBm**。
 
-![AI8051U SI24R1 载波窄带扫频](../../../assets/4.jpg)
+![AI8051U SI24R1 载波窄带扫频](../../assets/4.jpg)
 
 - 除 2475 MHz 主谱线外还有若干离散旁线，说明这次观测到的不是纯单载波；作为 CW 参考前先确认烧进去的固件确实是 `SI24R1_TEST_MODE = 1`。
 - 扫频式频谱仪只能定性看窄带谱形；占用带宽（OBW ≥ 500 kHz 判据）必须用模式 2 + 宽 Span 或专门的 OBW 功能测。
