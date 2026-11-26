@@ -93,7 +93,7 @@ NVIC value of 255. */
  * vPortValidateInterruptPriority() 等全部内部断言。这份固件尚未在硬件上
  * 回归验证，擅自启用可能让原本能跑的中断路径直接卡在断言里。
  *
- * 因此这里显式设为 0：向量表接线已用 nm/objdump 静态核对（详见 gcc/README.md）。
+ * 因此这里显式设为 0：向量表接线已用 nm/objdump 静态核对（详见 README.md）。
  * 若后续需要运行期自检，把下面的 0 改成 1，并同时定义 configASSERT() 即可。 */
 #define configCHECK_HANDLER_INSTALLATION	0
 

@@ -43,6 +43,8 @@ P4M1=0x00, P4M0=0x00   P4 准双向
 
 ## STM32F103C8T6（`firmware/si24r1/stm32f103c8t6-freertos/`，FreeRTOS）
 
+> `firmware/si24r1/stm32f103c8t6-freertos-single-carrier/`（单载波 CW）接线与本段完全相同，只是固件行为改为持续输出载波。
+
 通信接口：软件 SPI
 
 | NF-02-PA(SI24R1) 引脚 | LoraKit 丝印 | STM32 引脚 | 方向 | 说明 |
