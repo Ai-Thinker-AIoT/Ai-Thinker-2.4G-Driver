@@ -11,7 +11,7 @@
 ## 1. 目录结构
 
 ```
-stc15w408as-single-carrier/
+STC15W408AS-Single-Carrier/
 ├── USER/
 │   ├── main.c            # 三种模式的分支入口
 │   └── SI24R1.uvproj     # Keil C51 工程
@@ -34,7 +34,7 @@ stc15w408as-single-carrier/
 
 | 模式 | 行为 | 参数 | 用途 |
 |------|------|------|------|
-| 0 | 与 `stc15w408as-demo` 相同的按键收发 | 2440 MHz / 2 Mbps / +7 dBm | 功能回归 |
+| 0 | 与 `STC15W408AS-Demo` 相同的按键收发 | 2440 MHz / 2 Mbps / +7 dBm | 功能回归 |
 | 1 | `CONFIG=0x0E` → 延时 ≥1.5 ms → 写 `CONT_WAVE+PLL_LOCK` → 设信道 → CE 常高 | 2475 MHz / `RF_SETUP = 0x9F` | 载波功率、频率容限、杂散 |
 | 2 | 清 `EN_AA` / `SETUP_RETR`，CE 常高，持续向 TX FIFO 喂伪随机载荷 | 2475 MHz / `RF_SETUP = 0x0F` | 占用带宽、6 dB 带宽、PSD |
 

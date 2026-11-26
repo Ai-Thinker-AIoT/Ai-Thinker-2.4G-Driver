@@ -11,7 +11,7 @@
 ## 1. 目录结构
 
 ```
-stc15w408as-demo/
+STC15W408AS-Demo/
 ├── USER/
 │   ├── main.c            # 按键扫描 / 收发切换 / 指示灯
 │   └── BK2425.uvproj     # Keil C51 工程

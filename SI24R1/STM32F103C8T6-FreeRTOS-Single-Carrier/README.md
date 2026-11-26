@@ -1,6 +1,6 @@
 # NF-02-PA(SI24R1) on STM32F103C8T6 + FreeRTOS —— 单载波（CW）测试
 
-从 `../stm32f103c8t6-freertos/` 复制改造：去掉收发链路，**上电即进入 2475 MHz 未调制载波**（`RF_SETUP = 0x9F`，CE 常高），用于载波功率 / 频率容限 / 杂散测试；FreeRTOS 心跳任务保留，用来证明调度器正常。
+从 [`../STM32F103C8T6-FreeRTOS/`](../STM32F103C8T6-FreeRTOS/) 复制改造：去掉收发链路，**上电即进入 2475 MHz 未调制载波**（`RF_SETUP = 0x9F`，CE 常高），用于载波功率 / 频率容限 / 杂散测试；FreeRTOS 心跳任务保留，用来证明调度器正常。
 
 - MCU：STM32F103C8T6，HSE 8 MHz → PLL → 72 MHz
 - 工程：Keil MDK（**ARM-GNU / arm-none-eabi-gcc** 工具链），`Project.uvprojx`，Device `STM32F103C8`
@@ -11,7 +11,7 @@
 ## 1. 目录结构
 
 ```
-stm32f103c8t6-freertos-single-carrier/
+STM32F103C8T6-FreeRTOS-Single-Carrier/
 ├── Project.uvprojx          # Keil 工程（ARM-GNU 工具链）
 ├── Start/                   # core_cm3、system_stm32f10x、stm32f10x.h
 ├── gcc/                     # startup_stm32f103xb.s、stm32f103c8.ld、syscalls.c
@@ -36,7 +36,7 @@ stm32f103c8t6-freertos-single-carrier/
 | MISO | SPI_MISO | PA6 |
 | IRQ  | LORA_DIO0 | PB0 |
 
-与收发工程接线完全相同，完整端口配置见仓库根目录 `docs/wiring.zh-CN.md`。
+与收发工程接线完全相同，完整端口配置见仓库根目录 [`docs/wiring.zh-CN.md`](../../docs/wiring.zh-CN.md)。
 
 ## 3. 载波参数
 
@@ -48,7 +48,7 @@ stm32f103c8t6-freertos-single-carrier/
 | 地址 / Payload / 自动重发 | CW 模式不使用（宏与地址仍保留，便于改回收发） |
 
 - 改信道或功率：只改 `Hardware/SI24R1/SI24R1.h` 的 `RF_CH_CW`、`RF_SETUP_CW`。
-- 要测占用带宽（OBW）必须做 **MOD 连续调制发射**：清 `EN_AA` / `SETUP_RETR`，CE 常高并持续向 TX FIFO 喂伪随机载荷，参考 `../ai8051u-single-carrier/` 的实现。CW 只有单根谱线，OBW 仅几十 kHz。
+- 要测占用带宽（OBW）必须做 **MOD 连续调制发射**：清 `EN_AA` / `SETUP_RETR`，CE 常高并持续向 TX FIFO 喂伪随机载荷，参考 [`../AI8051U-Single-Carrier/`](../AI8051U-Single-Carrier/) 的实现。CW 只有单根谱线，OBW 仅几十 kHz。
 
 ## 4. 运行行为
 
@@ -84,7 +84,7 @@ stm32f103c8t6-freertos-single-carrier/
 
 Keysight 扫频式频谱仪，Ref 30 dBm / 10 dB/div / 衰减 40 dB，中心 2.47498 GHz、Span 25 kHz、RBW = VBW = 240 Hz，标记 `Mkr1 2.474976620 GHz` 读数 **20.50 dBm**。
 
-![STM32 CW 载波窄带扫频](../../assets/3.jpg)
+![STM32 CW 载波窄带扫频](../../Assets/3.jpg)
 
 - 25 kHz 窄带内只有一根谱线，符合 CW 单载波预期；占用带宽只有几十 kHz，**不能**用这张图去论证 OBW。
 - 状态栏有 `RF Alignment Failure` 告警，说明仪器未完成 RF 校准，20.50 dBm 只能当定性参考，正式测功率前先跑 Auto Align。
@@ -93,4 +93,4 @@ Keysight 扫频式频谱仪，Ref 30 dBm / 10 dB/div / 衰减 40 dB，中心 2.4
 ## 8. 备注
 
 - 载波开启后不再响应按键，也不会发任何数据包；测完断电即可。
-- 收发链路的完整说明见 `../stm32f103c8t6-freertos/README.md`。
+- 收发链路的完整说明见 [`../STM32F103C8T6-FreeRTOS/README.md`](../STM32F103C8T6-FreeRTOS/README.md)。

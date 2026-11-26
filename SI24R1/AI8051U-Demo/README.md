@@ -11,7 +11,7 @@ AI8051U 上的 SI24R1 收发示例（取自周总结归档基线）：串口日�
 ## 1. 目录结构
 
 ```
-ai8051u-demo/
+AI8051U-Demo/
 ├── Source/
 │   ├── main.c                # 初始化、UART 日志、TX/RX 任务循环
 │   ├── main_full.c           # 整理时保留的完整参考版，未加入工程编译
@@ -36,7 +36,7 @@ ai8051u-demo/
 
 - 调试串口：P3.7（TX）/ P3.6（RX），115200-8-N-1。
 - 状态 LED：`P2^0`（低电平点亮，见 `main.c` 的 `sbit LED`）。
-- 与 STC15 版同口同序，接线可直接沿用 `docs/wiring.zh-CN.md`。
+- 与 STC15 版同口同序，接线可直接沿用 [`docs/wiring.zh-CN.md`](../../docs/wiring.zh-CN.md)。
 
 ## 3. 角色配置
 
@@ -63,8 +63,8 @@ ai8051u-demo/
 
 - 双击 `build.bat`（内部调用 `UV4.exe -b AI8051U-SI24R1.uvproj`，产物 `Objects/AI8051U-SI24R1.Hex`），或直接用 Keil C51 打开 `AI8051U-SI24R1.uvproj` 后 Rebuild。
 - 用 STC-ISP 下载 HEX，AI8051U 需按提示冷启动/重新上电。
-- 实测双板收发日志见仓库根目录 `README.md` 的截图。
+- 实测双板收发日志见仓库根目录 [`README.md`](../../README.md) 的截图。
 
 ## 6. 备注
 
-本工程不提供 CW / MOD 测试模式；需要做认证测试请用 `../ai8051u-single-carrier/`。
+本工程不提供 CW / MOD 测试模式；需要做认证测试请用 [`../AI8051U-Single-Carrier/`](../AI8051U-Single-Carrier/)。

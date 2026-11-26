@@ -7,7 +7,7 @@
 ## 1. 目录结构
 
 ```
-si24r1/stm32f103c8t6-freertos/
+SI24R1/STM32F103C8T6-FreeRTOS/
 ├── Project.uvprojx          # Keil 工程
 ├── Start/                   # 启动文件(core_cm3/system_stm32f10x/stm32f10x.h)
 ├── Library/                 # STM32F10x 标准外设库

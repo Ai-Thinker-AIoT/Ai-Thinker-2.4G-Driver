@@ -10,7 +10,7 @@
 ## 1. 目录结构
 
 ```
-ai8051u-single-carrier/
+AI8051U-Single-Carrier/
 ├── Source/
 │   ├── main.c                # 模式分支入口（CW / MOD / 正常链路）
 │   ├── main_full.c           # 完整参考版，未加入工程编译
@@ -35,7 +35,7 @@ ai8051u-single-carrier/
 
 | 模式 | 参数 | 用途 |
 |------|------|------|
-| 0 | `RF_CH = 100` / 2500 MHz，1 Mbps，+7 dBm（`0x07`） | 正常收发链路，行为同 `ai8051u-demo` |
+| 0 | `RF_CH = 100` / 2500 MHz，1 Mbps，+7 dBm（`0x07`） | 正常收发链路，行为同 `AI8051U-Demo` |
 | 1 | `RF_CH = 75` / 2475 MHz，2 Mbps，+7 dBm，`RF_SETUP = 0x9F` | 载波功率、频率容限、杂散 |
 | 2 | 同上信道/速率，`RF_SETUP = 0x0F`，清自动应答、持续喂 TX FIFO | 占用带宽、6 dB 带宽、PSD |
 
@@ -68,11 +68,11 @@ ai8051u-single-carrier/
 
 Keysight 扫频式频谱仪，Ref 30 dBm / 10 dB/div / 衰减 40 dB，中心 2.47498 GHz、Span 223.7 kHz、RBW = VBW = 2.2 kHz（PNO Wide），标记 `Mkr1 2.47498159 GHz` 读数 **20.16 dBm**。
 
-![AI8051U SI24R1 载波窄带扫频](../../assets/4.jpg)
+![AI8051U SI24R1 载波窄带扫频](../../Assets/4.jpg)
 
 - 除 2475 MHz 主谱线外还有若干离散旁线，说明这次观测到的不是纯单载波；作为 CW 参考前先确认烧进去的固件确实是 `SI24R1_TEST_MODE = 1`。
 - 扫频式频谱仪只能定性看窄带谱形；占用带宽（OBW ≥ 500 kHz 判据）必须用模式 2 + 宽 Span 或专门的 OBW 功能测。
 
 ## 6. 备注
 
-模式 0 的串口日志与截图见 `../ai8051u-demo/`；两工程引脚、驱动一致，可互相替换烧录。
+模式 0 的串口日志与截图见 [`../AI8051U-Demo/`](../AI8051U-Demo/)；两工程引脚、驱动一致，可互相替换烧录。
