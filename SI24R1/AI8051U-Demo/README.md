@@ -36,7 +36,7 @@ AI8051U-Demo/
 
 - 调试串口：P3.7（TX）/ P3.6（RX），115200-8-N-1。
 - 状态 LED：`P2^0`（低电平点亮，见 `main.c` 的 `sbit LED`）。
-- 与 STC15 版同口同序，接线可直接沿用 [`docs/wiring.zh-CN.md`](../../docs/wiring.zh-CN.md)。
+- 与 STC15 版同口同序，接线可直接沿用 [`Docs/wiring.zh-CN.md`](../../Docs/wiring.zh-CN.md)。
 
 ## 3. 角色配置
 

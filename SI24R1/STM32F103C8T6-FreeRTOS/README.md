@@ -108,7 +108,7 @@ MISO   →    SPI_MISO          PA6
 IRQ    →    LORA_DIO0         PB0
 ```
 
-完整接线（含串口、LED、端口模式）见仓库根目录 [`docs/wiring.zh-CN.md`](../../docs/wiring.zh-CN.md)。
+完整接线（含串口、LED、端口模式）见仓库根目录 [`Docs/wiring.zh-CN.md`](../../Docs/wiring.zh-CN.md)。
 
 ---
 

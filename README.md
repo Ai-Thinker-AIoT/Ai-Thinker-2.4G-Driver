@@ -92,7 +92,7 @@ Pin mapping below uses `NF-02-PA(SI24R1)` as the reference module (SI24R1 based,
 
 - Both STM32 projects ([`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) and [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/)) use the same pin map above; only the firmware behaviour differs.
 - Debug UART: AI8051U = P3.7 (TX) / P3.6 (RX); STM32 = PA9 (TX) / PA10 (RX); both 115200-8-N-1.
-- Full port-mode configuration: [`docs/wiring.zh-CN.md`](docs/wiring.zh-CN.md).
+- Full port-mode configuration: [`Docs/wiring.zh-CN.md`](Docs/wiring.zh-CN.md).
 
 ---
 

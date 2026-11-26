@@ -36,7 +36,7 @@ STM32F103C8T6-FreeRTOS-Single-Carrier/
 | MISO | SPI_MISO | PA6 |
 | IRQ  | LORA_DIO0 | PB0 |
 
-与收发工程接线完全相同，完整端口配置见仓库根目录 [`docs/wiring.zh-CN.md`](../../docs/wiring.zh-CN.md)。
+与收发工程接线完全相同，完整端口配置见仓库根目录 [`Docs/wiring.zh-CN.md`](../../Docs/wiring.zh-CN.md)。
 
 ## 3. 载波参数
 

@@ -92,7 +92,7 @@
 
 - 两个 STM32 工程（[`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) 与 [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/)）共用上表接线，只是固件行为不同。
 - 调试串口：AI8051U = P3.7(TX)/P3.6(RX)，STM32 = PA9(TX)/PA10(RX)，均 115200-8-N-1。
-- 完整端口模式配置见 [`docs/wiring.zh-CN.md`](docs/wiring.zh-CN.md)。
+- 完整端口模式配置见 [`Docs/wiring.zh-CN.md`](Docs/wiring.zh-CN.md)。
 
 ---
 

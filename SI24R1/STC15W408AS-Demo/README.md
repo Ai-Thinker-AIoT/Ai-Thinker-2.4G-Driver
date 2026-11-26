@@ -35,7 +35,7 @@ STC15W408AS-Demo/
 
 板载按键/指示灯：`KEY1 = P3.0`、`KEY2 = P3.1`、`LED3 = P1.6`、`LED4 = P3.5`（见 `USER/main.c`）。
 
-改引脚只改 `SI24R1/SI24R1.h` 顶部的宏，驱动逻辑不用动。完整端口模式见仓库根目录 [`docs/wiring.zh-CN.md`](../../docs/wiring.zh-CN.md)。
+改引脚只改 `SI24R1/SI24R1.h` 顶部的宏，驱动逻辑不用动。完整端口模式见仓库根目录 [`Docs/wiring.zh-CN.md`](../../Docs/wiring.zh-CN.md)。
 
 ## 3. 射频参数
 
