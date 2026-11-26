@@ -80,7 +80,17 @@ stm32f103c8t6-freertos-single-carrier/
 3. Rebuild；已勾选 **Create HEX File**，产物为 `Project.axf` 与 `Project.hex`。
 4. ST-Link 下载，复位后先看串口横幅，再把板子/天线接频谱仪测载波。
 
-## 7. 备注
+## 7. 频谱实测（窄带扫频）
+
+Keysight 扫频式频谱仪，Ref 30 dBm / 10 dB/div / 衰减 40 dB，中心 2.47498 GHz、Span 25 kHz、RBW = VBW = 240 Hz，标记 `Mkr1 2.474976620 GHz` 读数 **20.50 dBm**。
+
+![STM32 CW 载波窄带扫频](../../../assets/3.jpg)
+
+- 25 kHz 窄带内只有一根谱线，符合 CW 单载波预期；占用带宽只有几十 kHz，**不能**用这张图去论证 OBW。
+- 状态栏有 `RF Alignment Failure` 告警，说明仪器未完成 RF 校准，20.50 dBm 只能当定性参考，正式测功率前先跑 Auto Align。
+- 频率读数 2.47497662 GHz 与设定的 2475 MHz 相差约 23 kHz，属于模块晶振误差范围，认证测试需在报告中注明实测值。
+
+## 8. 备注
 
 - 载波开启后不再响应按键，也不会发任何数据包；测完断电即可。
 - 收发链路的完整说明见 `../stm32f103c8t6-freertos/README.md`。

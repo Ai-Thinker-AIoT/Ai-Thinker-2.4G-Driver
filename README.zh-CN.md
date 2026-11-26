@@ -39,6 +39,18 @@
 
 `firmware/si24r1/stm32f103c8t6-freertos-single-carrier/` 只在 USART1 打印一次启动横幅（`CW mode: carrier on, forever` / `RF = 2475 MHz, RF_SETUP = 0x9F`），随后持续输出载波，没有可截图的收发日志，请在频谱仪上验证。
 
+**频谱实测** —— Keysight 扫频式频谱仪窄带扫频（Ref 30 dBm、10 dB/div、衰减 40 dB），均围绕 2475 MHz 载波。
+
+`firmware/si24r1/stm32f103c8t6-freertos-single-carrier/` — 中心 2.47498 GHz、Span 25 kHz、RBW/VBW 240 Hz；标记 `Mkr1 2.474976620 GHz` 读数为 **20.50 dBm**。只有单根谱线，是未调制载波，占用带宽仅几十 kHz。
+
+![STM32 CW 载波，Span 25 kHz](assets/3.jpg)
+
+`firmware/si24r1/ai8051u-single-carrier/` — 中心 2.47498 GHz、Span 223.7 kHz、RBW/VBW 2.2 kHz（`PNO Wide`）；标记读数 **20.16 dBm**。除主谱线外还有若干离散旁线，因此这条曲线**不是**干净的单载波，作为 CW 参考前先确认板子上的 `SI24R1_TEST_MODE`。
+
+![AI8051U 载波，Span 223.7 kHz](assets/4.jpg)
+
+> 第一张截图的状态栏带 `RF Alignment Failure` 告警，绝对功率读数只能作定性参考。
+
 ### NF-04、NF-04-MI(BK2425)
 
 **芯片目录**：`firmware/bk2425/`

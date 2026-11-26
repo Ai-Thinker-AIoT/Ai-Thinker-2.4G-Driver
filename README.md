@@ -39,6 +39,18 @@ All firmware projects live under `firmware/`, grouped by chip.
 
 `firmware/si24r1/stm32f103c8t6-freertos-single-carrier/` prints a one-shot boot banner over USART1 (`CW mode: carrier on, forever` / `RF = 2475 MHz, RF_SETUP = 0x9F`) and then emits the carrier; there is no packet log to capture — verify it on a spectrum analyser instead.
 
+**Spectrum captures** — narrow-span swept measurements on a Keysight swept SA (Ref 30 dBm, 10 dB/div, 40 dB attenuation), both around the 2475 MHz carrier.
+
+`firmware/si24r1/stm32f103c8t6-freertos-single-carrier/` — center 2.47498 GHz, span 25 kHz, RBW/VBW 240 Hz; marker `Mkr1 2.474976620 GHz` reads **20.50 dBm**. A single spectral line: unmodulated carrier, OBW only tens of kHz.
+
+![STM32 CW carrier, 25 kHz span](assets/3.jpg)
+
+`firmware/si24r1/ai8051u-single-carrier/` — center 2.47498 GHz, span 223.7 kHz, RBW/VBW 2.2 kHz (`PNO Wide`); marker reads **20.16 dBm**. Besides the main line there are discrete side lines, so this trace is **not** a clean single-line CW — check `SI24R1_TEST_MODE` on the board before using it as a CW reference.
+
+![AI8051U carrier, 223.7 kHz span](assets/4.jpg)
+
+> The status bar in the first capture shows `RF Alignment Failure`; treat absolute power readings as indicative rather than calibrated.
+
 ### NF-04, NF-04-MI (BK2425)
 
 **Chip directory**: `firmware/bk2425/`
