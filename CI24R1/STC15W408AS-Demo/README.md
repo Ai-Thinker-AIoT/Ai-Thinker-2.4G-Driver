@@ -1,59 +1,63 @@
-# NF-05 / NF-05-S (CI24R1) on STC15W408AS —— 原厂收发示例
+# NF-05 / NF-05-S (CI24R1) on STC15W408AS — Factory Transceiver Example
 
-安信可 2.4G 测试板上的 **CI24R1 原厂 STC15 示例**：双板按键互控 LED。
+[![中文](https://img.shields.io/badge/中文-README-blue)](README.zh-CN.md)
 
-- 芯片：CI24R1（NF-05 / NF-05-S）
-- 工程：Keil C51，`USER/CI24R1.uvproj`
-- 时钟：内部 IRC **11.0592 MHz**（与其它三颗芯片的 22.1184 MHz 不同），下载需冷启动
+> Official documentation: <https://docs.ai-thinker.com/2.4g_1/>
+
+The **CI24R1 factory STC15 example** for the Ai-Thinker 2.4G test board: two boards exchange key presses and light each other's LEDs.
+
+- Chip: CI24R1 (NF-05 / NF-05-S)
+- Project: Keil C51, `USER/CI24R1.uvproj`
+- Clock: internal IRC **11.0592 MHz** (the other three chips use 22.1184 MHz); download needs a cold start
 
 ---
 
-## 1. 目录结构
+## 1. Layout
 
 ```
 STC15W408AS-Demo/
 ├── USER/
-│   ├── main.c            # 按键扫描 / 收发切换 / 指示灯
-│   └── CI24R1.uvproj     # Keil C51 工程
+│   ├── main.c            # key scan / TX-RX switching / LEDs
+│   └── CI24R1.uvproj     # Keil C51 project
 ├── CI24R1/
-│   ├── CI24R1.c          # 寄存器初始化、时序、收发函数
-│   └── CI24R1.h          # 引脚宏、命令与寄存器地址
-├── FWLib/                # STC15 外设库
+│   ├── CI24R1.c          # register init, timing, TX/RX functions
+│   └── CI24R1.h          # pin macros, commands and register addresses
+├── FWLib/                # STC15 peripheral library
 └── README.md
 ```
 
-## 2. 接口与引脚
+## 2. Interface and pins
 
-CI24R1 与 nRF24L01+ 不是同一套物理接口：数据线复用、CE 由命令控制，接线以 `CI24R1/CI24R1.h` 为准。
+CI24R1 does not use the same physical interface as nRF24L01+: the data line is shared and CE is controlled by commands, so `CI24R1/CI24R1.h` is the reference for wiring.
 
-| CI24R1 信号 | STC15W408AS | 说明 |
-|-------------|-------------|------|
-| CSN  | P1.5 | 片选，低有效 |
-| SCK  | P1.2 | 时钟 |
-| DATA | P1.0 | 单线复用，兼 MOSI / IRQ，靠 `SELSPI` / `SELIRQ` 命令切换角色 |
-| CE   | — | 无独立引脚，用 `CE_ON` / `CE_OFF` 命令开关 |
+| CI24R1 signal | STC15W408AS | Note |
+|---------------|-------------|------|
+| CSN  | P1.5 | chip select, active low |
+| SCK  | P1.2 | clock |
+| DATA | P1.0 | single line shared by MOSI / IRQ, switched by the `SELSPI` / `SELIRQ` commands |
+| CE   | — | no dedicated pin; enabled by `CE_ON` / `CE_OFF` commands |
 
-按键/指示灯：`KEY1 = P3.0`、`KEY2 = P3.1`、`LED3 = P1.6`、`LED4 = P3.5`。
+Keys / LEDs: `KEY1 = P3.0`, `KEY2 = P3.1`, `LED3 = P1.6`, `LED4 = P3.5`.
 
-> 因此 CI24R1 不能直接插在 SI24R1/nRF24L01+ 的四线座子上做点对点测试，两块板必须是同型号 CI24R1。
+> CI24R1 therefore cannot be plugged into the four-wire SI24R1/nRF24L01+ socket for a point-to-point test; both boards must be CI24R1.
 
-## 3. 射频参数
+## 3. RF settings
 
-| 项目 | 值 |
-|------|-----|
-| 射频信道 | `RF_CH = 80` → 2480 MHz |
-| 速率 / 功率 | 2 Mbps / +9 dBm（`RF_SETUP = 0x0D`，源码注释值） |
-| Payload | 32 字节 |
-| CRC | 16 位 |
+| Item | Value |
+|------|-------|
+| Channel | `RF_CH = 80` → 2480 MHz |
+| Rate / power | 2 Mbps / +9 dBm (`RF_SETUP = 0x0D`, value as commented in the source) |
+| Payload | 32 bytes |
+| CRC | 16 bit |
 
-自动应答、重发等其余寄存器配置见 `CI24R1/CI24R1.c` 中 `CI24R1_RX_Mode` / `CI24R1_TX_Mode`。
+Auto-ACK, retransmit and the remaining registers are configured in `CI24R1_RX_Mode` / `CI24R1_TX_Mode` inside `CI24R1/CI24R1.c`.
 
-## 4. 操作说明
+## 4. How it works
 
-上电默认 RX；按 `KEY1` 发 `0x55`、对侧 `LED3` 闪两下；按 `KEY2` 发 `0xAA`、对侧 `LED4` 闪两下。
+After power-up the board is in RX. Pressing `KEY1` sends `0x55` and the other board's `LED3` blinks twice; pressing `KEY2` sends `0xAA` and `LED4` blinks twice.
 
-## 5. 编译与烧录
+## 5. Build and flash
 
-Keil C51 打开 `USER/CI24R1.uvproj`（Device = STC15W408AS，IRC **11.0592 MHz**）→ Rebuild → STC-ISP 下载，**冷启动**。
+Open `USER/CI24R1.uvproj` in Keil C51 (Device = STC15W408AS, IRC **11.0592 MHz**) → Rebuild → download with STC-ISP, **cold start**.
 
-时钟选错会直接导致串口/时序异常，务必核对这一项。
+A wrong clock setting breaks UART and timing immediately, so always double-check this item.

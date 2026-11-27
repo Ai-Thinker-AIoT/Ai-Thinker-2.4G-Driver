@@ -1,5 +1,7 @@
 # NF-02-PA(SI24R1) 接线说明
 
+[English](wiring.md)
+
 本文只覆盖 `NF-02-PA(SI24R1)` 模组在 `SI24R1/` 下 AI8051U 与 STM32 工程上的接线。
 
 ## AI8051U（`SI24R1/AI8051U-Demo/`、`SI24R1/AI8051U-Single-Carrier/`，Keil C51 8 位）
@@ -41,7 +43,7 @@ P4M1=0x00, P4M0=0x00   P4 准双向
 
 ---
 
-## STM32F103C8T6（`SI24R1/STM32F103C8T6-FreeRTOS/`，FreeRTOS）
+## STM32F103C8T6（`SI24R1/STM32F103C8T6-FreeRTOS-Demo/`，FreeRTOS）
 
 > `SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/`（单载波 CW）接线与本段完全相同，只是固件行为改为持续输出载波。
 

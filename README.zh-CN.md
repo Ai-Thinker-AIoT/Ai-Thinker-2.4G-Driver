@@ -8,6 +8,8 @@
 
 **Ai-Thinker 2.4G Driver** —— 安信可 2.4G 系列模组的驱动与示例固件集合。覆盖 **4 颗芯片**（SI24R1、BK2425、CI24R1、NRF24L01+）与 **12 个模组型号**，每个芯片一个目录，直接放在仓库根目录。
 
+> 官方资料：安信可 2.4G 系列模组文档 <https://docs.ai-thinker.com/2.4g_1/>
+
 ---
 
 ## 1. 仓库结构
@@ -22,7 +24,7 @@
 |------|--------------|------|----------|
 | [`STC15W408AS-Demo`](SI24R1/STC15W408AS-Demo/) | STC15W408AS / Keil C51 | 安信可 2.4G 测试板**原厂默认示例**：双板按键互控 LED | `USER/SI24R1.uvproj` |
 | [`AI8051U-Demo`](SI24R1/AI8051U-Demo/) | AI8051U（8-bit）/ Keil C51 | **正常收发链路版**（取自周总结归档基线）：串口日志、TX/RX 自测；不含载波测试模式 | `AI8051U-SI24R1.uvproj` |
-| [`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) | STM32F103C8T6 / MDK-ARM + FreeRTOS | 软件 SPI 驱动 + 心跳任务 / 无线任务 | `Project.uvprojx` |
+| [`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/) | STM32F103C8T6 / MDK-ARM + FreeRTOS | 软件 SPI 驱动 + 心跳任务 / 无线任务 | `Project.uvprojx` |
 | [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/) | STM32F103C8T6 / Keil ARM-GNU（arm-none-eabi-gcc）+ FreeRTOS | 由上一工程复制的**单载波（CW）测试固件**：上电即进入 2475 MHz 连续未调制载波（`RF_SETUP = 0x9F`），CE 常高，心跳任务照常运行；只有串口启动横幅，不含收发链路 | `Project.uvprojx` |
 | [`STC15W408AS-Single-Carrier`](SI24R1/STC15W408AS-Single-Carrier/) | STC15W408AS / Keil C51 | 从原厂示例派生的**单载波测试 demo**：未调制单载波 CW、连续调制发射 MOD（默认 MOD） | `USER/SI24R1.uvproj` |
 | [`AI8051U-Single-Carrier`](SI24R1/AI8051U-Single-Carrier/) | AI8051U（8-bit）/ Keil C51 | 同一套单载波测试框架在 AI8051U 上的移植；`SI24R1_TEST_MODE` = 0 / 1 / 2（默认 1，CW） | `AI8051U-SI24R1.uvproj` |
@@ -33,7 +35,7 @@
 
 ![AI8051U SI24R1 双板收发日志](Assets/ScreenShot_2026-11-05_160920_306.png)
 
-**[`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/)** — STM32F103C8T6 + FreeRTOS（`SI24R1_ROLE = RX`）
+**[`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/)** — STM32F103C8T6 + FreeRTOS（`SI24R1_ROLE = RX`）
 
 ![STM32 FreeRTOS SI24R1 双板收发日志](Assets/ScreenShot_2026-11-05_174444_181.png)
 
@@ -90,7 +92,7 @@
 | MISO   | P1.0        | P1.0    | PA6（SPI_MISO） |
 | IRQ    | P1.1        | P1.1    | PB0（LORA_DIO0） |
 
-- 两个 STM32 工程（[`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) 与 [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/)）共用上表接线，只是固件行为不同。
+- 两个 STM32 工程（[`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/) 与 [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/)）共用上表接线，只是固件行为不同。
 - 调试串口：AI8051U = P3.7(TX)/P3.6(RX)，STM32 = PA9(TX)/PA10(RX)，均 115200-8-N-1。
 - 完整端口模式配置见 [`Docs/wiring.zh-CN.md`](Docs/wiring.zh-CN.md)。
 
@@ -102,7 +104,7 @@
 |------|-------|------|---------------------------|----------|-----|
 | [`STC15W408AS-Demo`](SI24R1/STC15W408AS-Demo/) | 40 | 2440 MHz | 2 Mbps / +7 dBm (`0x0F`) | 250us+86us ×10 (`0x0A`) | 16 bit |
 | [`AI8051U-Demo`](SI24R1/AI8051U-Demo/) | 40 | 2440 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us ×10 (`0x1A`) | 16 bit |
-| [`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us ×15 (`0x1F`) | 16 bit |
+| [`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/) | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us ×15 (`0x1F`) | 16 bit |
 | [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/) | 75 | 2475 MHz | 2 Mbps / +7 dBm CW (`0x9F`) | 关闭 | 16 bit |
 | [`AI8051U-Single-Carrier`](SI24R1/AI8051U-Single-Carrier/)（`TEST_MODE=0`） | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us ×15 (`0x1F`) | 16 bit |
 | `*-Single-Carrier`（`TEST_MODE=1/2`，仅 8-bit 工程） | 75 | 2475 MHz | 2 Mbps / +7 dBm (`0x0F`；CW 再加 `CONT_WAVE+PLL_LOCK` → `0x9F`) | 关闭 | 16 bit |
@@ -139,10 +141,10 @@
 | STC15 工程（SI24R1 / BK2425 / NRF24L01+） | Keil C51 | 打开对应 `USER/*.uvproj`（`SI24R1.uvproj` / `BK2425.uvproj` / `nRF24L01P.uvproj`），Device = STC15W408AS，内部 IRC 22.1184 MHz；STC-ISP 烧录 |
 | STC15 工程（CI24R1） | Keil C51 | 打开 `USER/CI24R1.uvproj`，内部 IRC **11.0592 MHz**（与其余三颗不同），下载需冷启动；STC-ISP 烧录 |
 | AI8051U 工程 | Keil C51 | 运行 `build.bat` 或打开 `.uvproj`；主频 33.1776 MHz；8bit 模式 |
-| [`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) | Keil MDK + `Keil.STM32F1xx_DFP` | 打开 `Project.uvprojx`，Define 含 `STM32F10X_MD,USE_STDPERIPH_DRIVER`；ST-Link 烧录 `Objects/Project.axf` |
+| [`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/) | Keil MDK + `Keil.STM32F1xx_DFP` | 打开 `Project.uvprojx`，Define 含 `STM32F10X_MD,USE_STDPERIPH_DRIVER`；ST-Link 烧录 `Objects/Project.axf` |
 | [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/) | Keil MDK + **ARM-GNU**（arm-none-eabi-gcc）工具链 | 打开 `Project.uvprojx`；启动文件为 [`gcc/startup_stm32f103xb.s`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/gcc/startup_stm32f103xb.s)，链接脚本为 [`gcc/stm32f103c8.ld`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/gcc/stm32f103c8.ld)，[`gcc/syscalls.c`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/gcc/syscalls.c) 提供 newlib 桩函数；`CreateHexFile=1`，会同时输出 `Project.hex` |
 
 - AI8051U 工程默认角色均为 TX：改 `SI24R1.h` 中 `SI24R1_ROLE` 为 `SI24R1_ROLE_RX` 编出接收端固件（或用编译预定义覆盖）。
 - [`AI8051U-Single-Carrier`](SI24R1/AI8051U-Single-Carrier/) 默认 `SI24R1_TEST_MODE = 1`（CW），要跑正常链路改成 0、要连续调制改成 2；[`STC15W408AS-Single-Carrier`](SI24R1/STC15W408AS-Single-Carrier/) 默认即为 MOD。
-- STM32 默认角色 RX：改 [`Hardware/SI24R1/SI24R1.h`](SI24R1/STM32F103C8T6-FreeRTOS/Hardware/SI24R1/SI24R1.h) 中 `SI24R1_ROLE`；两块板必须一发一收。收发工程未配置 fromelf 后处理，编译只生成 `.axf`，需要 `.hex` 时请在 Options for Target → User → After Build 中自行启用。
+- STM32 默认角色 RX：改 [`Hardware/SI24R1/SI24R1.h`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/Hardware/SI24R1/SI24R1.h) 中 `SI24R1_ROLE`；两块板必须一发一收。收发工程未配置 fromelf 后处理，编译只生成 `.axf`，需要 `.hex` 时请在 Options for Target → User → After Build 中自行启用。
 - STM32 单载波工程运行时不读 `SI24R1_ROLE`（它从不进入 RX/TX 收发包流程），FreeRTOS 堆改为 `12 * 1024`（原工程 17 KB）；`configCHECK_HANDLER_INSTALLATION` 显式设为 `0`，因为该固件尚未在硬件上回归验证，若重新打开需同时定义 `configASSERT()`。

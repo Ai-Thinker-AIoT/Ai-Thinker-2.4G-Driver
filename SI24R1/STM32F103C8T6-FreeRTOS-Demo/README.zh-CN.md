@@ -1,5 +1,9 @@
 # NF-02-PA(SI24R1) on STM32F103C8T6 + FreeRTOS
 
+[![English](https://img.shields.io/badge/English-README-green)](README.md)
+
+> 官方文档：<https://docs.ai-thinker.com/2.4g_1/>
+
 基于 **STM32F103C8T6 + FreeRTOS** 控制 **NF-02-PA(SI24R1)（基于 SI24R1 芯片的 2.4GHz 无线模组，兼容 nRF24L01+）** 的移植工程。
 
 ---
@@ -7,7 +11,7 @@
 ## 1. 目录结构
 
 ```
-SI24R1/STM32F103C8T6-FreeRTOS/
+SI24R1/STM32F103C8T6-FreeRTOS-Demo/
 ├── Project.uvprojx          # Keil 工程
 ├── Start/                   # 启动文件(core_cm3/system_stm32f10x/stm32f10x.h)
 ├── Library/                 # STM32F10x 标准外设库
@@ -131,3 +135,10 @@ IRQ    →    LORA_DIO0         PB0
 - 将 RX 改为 **EXTI 中断 + 二值信号量**（`xSemaphoreGiveFromISR`）唤醒接收任务，实现真正的事件驱动；
 - 增加串口打印（`usart.c`）把收到的数据输出到上位机；
 - 实现双向 Ping-Pong：通过切换 `RX/TX` 模式定时互发。
+---
+
+## 9. 实测日志
+
+两块 STM32F103C8T6 板（`SI24R1_ROLE` 分别编 TX / RX）上电后由 FreeRTOS 的无线任务持续收发，串口 115200-8-N-1 打印收发计数与错误计数。
+
+![STM32 FreeRTOS SI24R1 双板收发日志](../../Assets/ScreenShot_2026-11-05_174444_181.png)

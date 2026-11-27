@@ -8,6 +8,8 @@
 
 **Ai-Thinker 2.4G Driver** — driver and example firmware collection for the Ai-Thinker 2.4G module family, covering **4 chips** (SI24R1, BK2425, CI24R1, NRF24L01+) and **12 module models**. Each chip has its own directory at the repository root.
 
+> 官方资料：安信可 2.4G 系列模组文档 <https://docs.ai-thinker.com/2.4g_1/>
+
 ---
 
 ## 1. Repository Layout
@@ -22,7 +24,7 @@ Firmware projects are grouped by chip, one directory per chip at the repository 
 |-----------|-----------------|----------|--------------|
 | [`STC15W408AS-Demo`](SI24R1/STC15W408AS-Demo/) | STC15W408AS / Keil C51 | **Original factory demo** for the Ai-Thinker 2.4G test board: two boards control each other's LEDs via buttons | `USER/SI24R1.uvproj` |
 | [`AI8051U-Demo`](SI24R1/AI8051U-Demo/) | AI8051U (8-bit) / Keil C51 | **Normal packet-link version** (baseline from the weekly-summary archive): UART logging, TX/RX self-test; no carrier test modes | `AI8051U-SI24R1.uvproj` |
-| [`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) | STM32F103C8T6 / MDK-ARM + FreeRTOS | Software-SPI driver with heartbeat and radio tasks | `Project.uvprojx` |
+| [`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/) | STM32F103C8T6 / MDK-ARM + FreeRTOS | Software-SPI driver with heartbeat and radio tasks | `Project.uvprojx` |
 | [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/) | STM32F103C8T6 / Keil ARM-GNU (arm-none-eabi-gcc) + FreeRTOS | **Single-carrier (CW) test firmware** copied from the project above: boots straight into a continuous unmodulated 2475 MHz carrier (`RF_SETUP = 0x9F`), CE held high, heartbeat task keeps running; UART banner only, no packet link | `Project.uvprojx` |
 | [`STC15W408AS-Single-Carrier`](SI24R1/STC15W408AS-Single-Carrier/) | STC15W408AS / Keil C51 | **Single-carrier test demo** branched from the factory example: CW unmodulated carrier and continuous modulated TX (defaults to MOD) | `USER/SI24R1.uvproj` |
 | [`AI8051U-Single-Carrier`](SI24R1/AI8051U-Single-Carrier/) | AI8051U (8-bit) / Keil C51 | AI8051U port of the same single-carrier test framework; `SI24R1_TEST_MODE` = 0 / 1 / 2 (defaults to 1, CW) | `AI8051U-SI24R1.uvproj` |
@@ -33,7 +35,7 @@ Firmware projects are grouped by chip, one directory per chip at the repository 
 
 ![AI8051U SI24R1 TX/RX log](Assets/ScreenShot_2026-11-05_160920_306.png)
 
-**[`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/)** — STM32F103C8T6 + FreeRTOS, `SI24R1_ROLE = RX`
+**[`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/)** — STM32F103C8T6 + FreeRTOS, `SI24R1_ROLE = RX`
 
 ![STM32 FreeRTOS SI24R1 TX/RX log](Assets/ScreenShot_2026-11-05_174444_181.png)
 
@@ -90,9 +92,9 @@ Pin mapping below uses `NF-02-PA(SI24R1)` as the reference module (SI24R1 based,
 | MISO   | P1.0        | P1.0    | PA6 (SPI_MISO) |
 | IRQ    | P1.1        | P1.1    | PB0 (LORA_DIO0) |
 
-- Both STM32 projects ([`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) and [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/)) use the same pin map above; only the firmware behaviour differs.
+- Both STM32 projects ([`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/) and [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/)) use the same pin map above; only the firmware behaviour differs.
 - Debug UART: AI8051U = P3.7 (TX) / P3.6 (RX); STM32 = PA9 (TX) / PA10 (RX); both 115200-8-N-1.
-- Full port-mode configuration: [`Docs/wiring.zh-CN.md`](Docs/wiring.zh-CN.md).
+- Full port-mode configuration: [`Docs/wiring.md`](Docs/wiring.md).
 
 ---
 
@@ -102,7 +104,7 @@ Pin mapping below uses `NF-02-PA(SI24R1)` as the reference module (SI24R1 based,
 |---------|-------|-----------|---------------------------|-----------------|-----|
 | [`STC15W408AS-Demo`](SI24R1/STC15W408AS-Demo/) | 40 | 2440 MHz | 2 Mbps / +7 dBm (`0x0F`) | 250us+86us x10 (`0x0A`) | 16 bit |
 | [`AI8051U-Demo`](SI24R1/AI8051U-Demo/) | 40 | 2440 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x10 (`0x1A`) | 16 bit |
-| [`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x15 (`0x1F`) | 16 bit |
+| [`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/) | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x15 (`0x1F`) | 16 bit |
 | [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/) | 75 | 2475 MHz | 2 Mbps / +7 dBm CW (`0x9F`) | disabled | 16 bit |
 | [`AI8051U-Single-Carrier`](SI24R1/AI8051U-Single-Carrier/) (`TEST_MODE=0`) | 100 | 2500 MHz | 1 Mbps / +7 dBm (`0x07`) | 500us x15 (`0x1F`) | 16 bit |
 | `*-Single-Carrier` (`TEST_MODE=1/2`, 8-bit projects only) | 75 | 2475 MHz | 2 Mbps / +7 dBm (`0x0F`; CW adds `CONT_WAVE+PLL_LOCK` -> `0x9F`) | disabled | 16 bit |
@@ -139,10 +141,10 @@ Common settings: address `0A 01 07 0E 01` (5 bytes), 32-byte payload, auto-ACK o
 | STC15 projects (SI24R1 / BK2425 / NRF24L01+) | Keil C51 | Open the matching `USER/*.uvproj` (`SI24R1.uvproj` / `BK2425.uvproj` / `nRF24L01P.uvproj`), Device = STC15W408AS, internal IRC 22.1184 MHz; flash with STC-ISP |
 | STC15 project (CI24R1) | Keil C51 | Open `USER/CI24R1.uvproj`, internal IRC **11.0592 MHz** (different from the other three), cold-start when downloading; flash with STC-ISP |
 | AI8051U projects | Keil C51 | Run `build.bat` or open `.uvproj`; clock 33.1776 MHz; 8-bit mode |
-| [`STM32F103C8T6-FreeRTOS`](SI24R1/STM32F103C8T6-FreeRTOS/) | Keil MDK + `Keil.STM32F1xx_DFP` | Open `Project.uvprojx`, Define includes `STM32F10X_MD,USE_STDPERIPH_DRIVER`; flash `Objects/Project.axf` with ST-Link |
+| [`STM32F103C8T6-FreeRTOS-Demo`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/) | Keil MDK + `Keil.STM32F1xx_DFP` | Open `Project.uvprojx`, Define includes `STM32F10X_MD,USE_STDPERIPH_DRIVER`; flash `Objects/Project.axf` with ST-Link |
 | [`STM32F103C8T6-FreeRTOS-Single-Carrier`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/) | Keil MDK with the **ARM-GNU** (arm-none-eabi-gcc) toolset | Open `Project.uvprojx`; startup comes from [`gcc/startup_stm32f103xb.s`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/gcc/startup_stm32f103xb.s), link map from [`gcc/stm32f103c8.ld`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/gcc/stm32f103c8.ld), [`gcc/syscalls.c`](SI24R1/STM32F103C8T6-FreeRTOS-Single-Carrier/gcc/syscalls.c) supplies newlib stubs; `CreateHexFile=1` also emits `Project.hex` |
 
 - AI8051U projects default to TX: set `SI24R1_ROLE` to `SI24R1_ROLE_RX` in `SI24R1.h` to build the receiver firmware (or override via a preprocessor define).
 - [`AI8051U-Single-Carrier`](SI24R1/AI8051U-Single-Carrier/) defaults to `SI24R1_TEST_MODE = 1` (CW); set it to 0 for the normal packet link or 2 for MOD before building. [`STC15W408AS-Single-Carrier`](SI24R1/STC15W408AS-Single-Carrier/) defaults to MOD.
-- STM32 defaults to RX: change `SI24R1_ROLE` in [`Hardware/SI24R1/SI24R1.h`](SI24R1/STM32F103C8T6-FreeRTOS/Hardware/SI24R1/SI24R1.h); one board must transmit, the other receive. No fromelf post-build step is configured, so the build produces only `.axf`; enable one under Options for Target -> User -> After Build if a `.hex` file is needed.
+- STM32 defaults to RX: change `SI24R1_ROLE` in [`Hardware/SI24R1/SI24R1.h`](SI24R1/STM32F103C8T6-FreeRTOS-Demo/Hardware/SI24R1/SI24R1.h); one board must transmit, the other receive. No fromelf post-build step is configured, so the build produces only `.axf`; enable one under Options for Target -> User -> After Build if a `.hex` file is needed.
 - The STM32 CW project ignores `SI24R1_ROLE` at runtime (it never enters RX/TX packet mode) and uses FreeRTOS heap `12 * 1024` instead of 17 KB; `configCHECK_HANDLER_INSTALLATION` is explicitly `0` because that firmware has not been re-validated on hardware. If you re-enable it, define `configASSERT()` as well.

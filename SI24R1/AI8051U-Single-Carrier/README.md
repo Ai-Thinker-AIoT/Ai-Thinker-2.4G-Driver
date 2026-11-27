@@ -1,51 +1,55 @@
-# NF-02-PA(SI24R1) on AI8051U —— 单载波 / 连续调制测试
+# NF-02-PA (SI24R1) on AI8051U — Single-Carrier / Continuous Modulation Test
 
-把 STC15 版单载波测试框架移植到 AI8051U，用 `SI24R1_TEST_MODE` 在“正常链路 / CW / MOD”之间切换。
+[![中文](https://img.shields.io/badge/中文-README-blue)](README.zh-CN.md)
 
-- 芯片：SI24R1（软件 SPI，nRF24L01+ 兼容）
-- MCU：AI8051U，32 位模式（C351），主频 **33.1776 MHz**，UART1 115200-8-N-1
+> Official documentation: <https://docs.ai-thinker.com/2.4g_1/>
+
+The STC15 single-carrier test framework ported to AI8051U, using `SI24R1_TEST_MODE` to switch between "normal link / CW / MOD".
+
+- Chip: SI24R1 (software SPI, nRF24L01+ compatible)
+- MCU: AI8051U, 32-bit mode (C351), **33.1776 MHz**, UART1 115200-8-N-1
 
 ---
 
-## 1. 目录结构
+## 1. Layout
 
 ```
 AI8051U-Single-Carrier/
 ├── Source/
-│   ├── main.c                # 模式分支入口（CW / MOD / 正常链路）
-│   ├── main_full.c           # 完整参考版，未加入工程编译
-│   ├── SI24R1.c / SI24R1.h   # 驱动 + 引脚 + SI24R1_TEST_MODE
-│   └── XSFR_STC8051U_8Bit.H  # AI8051U 寄存器/端口定义
-├── Toolchain/                # 本地 Keil C51 工具链缓存（CI 不含二进制）
-├── AI8051U-SI24R1.uvproj     # Keil C51 工程
-├── build.bat                 # 命令行编译脚本
-├── keilkill.bat              # 清理编译中间文件
+│   ├── main.c                # mode branch entry (CW / MOD / normal link)
+│   ├── main_full.c           # full reference version, not built
+│   ├── SI24R1.c / SI24R1.h   # driver + pins + SI24R1_TEST_MODE
+│   └── XSFR_STC8051U_8Bit.H  # AI8051U register / port definitions
+├── Toolchain/                # local Keil C51 cache (no binaries in CI)
+├── AI8051U-SI24R1.uvproj     # Keil C51 project
+├── build.bat                 # command-line build script
+├── keilkill.bat              # removes build intermediates
 └── README.md
 ```
 
-## 2. 测试模式
+## 2. Test modes
 
-`Source/SI24R1.h` 中 `SI24R1_TEST_MODE` **当前默认 1（CW）**：
+`SI24R1_TEST_MODE` in `Source/SI24R1.h` **currently defaults to 1 (CW)**:
 
 ```c
-#define SI24R1_TEST_MODE  1   // 0 = 正常收发链路
-                              // 1 = CW  未调制单载波（当前默认）
-                              // 2 = MOD 连续调制发射
+#define SI24R1_TEST_MODE  1   // 0 = normal link
+                              // 1 = CW  unmodulated carrier (current default)
+                              // 2 = MOD continuous modulated TX
 ```
 
-| 模式 | 参数 | 用途 |
-|------|------|------|
-| 0 | `RF_CH = 100` / 2500 MHz，1 Mbps，+7 dBm（`0x07`） | 正常收发链路，行为同 `AI8051U-Demo` |
-| 1 | `RF_CH = 75` / 2475 MHz，2 Mbps，+7 dBm，`RF_SETUP = 0x9F` | 载波功率、频率容限、杂散 |
-| 2 | 同上信道/速率，`RF_SETUP = 0x0F`，清自动应答、持续喂 TX FIFO | 占用带宽、6 dB 带宽、PSD |
+| Mode | Parameters | Purpose |
+|------|------------|---------|
+| 0 | `RF_CH = 100` / 2500 MHz, 1 Mbps, +7 dBm (`0x07`) | normal link, behaves like `AI8051U-Demo` |
+| 1 | `RF_CH = 75` / 2475 MHz, 2 Mbps, +7 dBm, `RF_SETUP = 0x9F` | carrier power, frequency tolerance, spurious |
+| 2 | same channel/rate, `RF_SETUP = 0x0F`, auto-ACK cleared, TX FIFO fed continuously | occupied bandwidth, 6 dB bandwidth, PSD |
 
-- 文件头注释里写的“0 为默认”是原始说明，实际宏值以 `#define SI24R1_TEST_MODE` 一行为准，出载波前请确认。
-- 测 OBW 必须用模式 2：逐包发送是通断突发，扫频式频谱仪测不准。
+- The "0 is default" note in the file header is the original comment; the actual value is the `#define SI24R1_TEST_MODE` line, so confirm it before emitting a carrier.
+- OBW must be measured in mode 2: per-packet transmission is an on/off burst that a swept analyser measures incorrectly.
 
-## 3. 引脚
+## 3. Pins
 
-| SI24R1 信号 | AI8051U |
-|-------------|---------|
+| SI24R1 signal | AI8051U |
+|---------------|---------|
 | CE   | P1.4 |
 | CSN  | P1.5 |
 | SCK  | P1.2 |
@@ -53,26 +57,26 @@ AI8051U-Single-Carrier/
 | MISO | P1.0 |
 | IRQ  | P1.1 |
 
-- 调试串口：P3.7（TX）/ P3.6（RX），115200-8-N-1。
-- 状态 LED：`P2^0`（低电平点亮）。
-- 角色宏 `SI24R1_ROLE` 默认 **TX**，仅模式 0 下有效；两块板需一收一发。
+- Debug UART: P3.7 (TX) / P3.6 (RX), 115200-8-N-1.
+- Status LED: `P2^0` (active low).
+- The role macro `SI24R1_ROLE` defaults to **TX** and only applies in mode 0; the two boards must be set to opposite roles.
 
-## 4. 编译与烧录
+## 4. Build and flash
 
-1. 改好 `SI24R1_TEST_MODE`。
-2. 双击 `build.bat`（产物 `Objects/AI8051U-SI24R1.Hex`），或用 Keil C51 打开 `AI8051U-SI24R1.uvproj` 编译。
-3. STC-ISP 下载，AI8051U 按提示冷启动。
-4. 模式 1/2 上电即发射，测完改回 0 或断电。
+1. Set `SI24R1_TEST_MODE` as needed.
+2. Double-click `build.bat` (output `Objects/AI8051U-SI24R1.Hex`), or open `AI8051U-SI24R1.uvproj` in Keil C51.
+3. Download with STC-ISP; AI8051U needs a cold start as prompted.
+4. Modes 1/2 transmit immediately at power-up; switch back to 0 or power down after measuring.
 
-## 5. 频谱实测（窄带扫频）
+## 5. Spectrum measurement (narrow-span sweep)
 
-Keysight 扫频式频谱仪，Ref 30 dBm / 10 dB/div / 衰减 40 dB，中心 2.47498 GHz、Span 223.7 kHz、RBW = VBW = 2.2 kHz（PNO Wide），标记 `Mkr1 2.47498159 GHz` 读数 **20.16 dBm**。
+Keysight swept spectrum analyser, Ref 30 dBm / 10 dB/div / 40 dB attenuation, centre 2.47498 GHz, span 223.7 kHz, RBW = VBW = 2.2 kHz (PNO Wide), marker `Mkr1 2.47498159 GHz` reads **20.16 dBm**.
 
-![AI8051U SI24R1 载波窄带扫频](../../Assets/4.jpg)
+![AI8051U SI24R1 carrier, narrow-span sweep](../../Assets/4.jpg)
 
-- 除 2475 MHz 主谱线外还有若干离散旁线，说明这次观测到的不是纯单载波；作为 CW 参考前先确认烧进去的固件确实是 `SI24R1_TEST_MODE = 1`。
-- 扫频式频谱仪只能定性看窄带谱形；占用带宽（OBW ≥ 500 kHz 判据）必须用模式 2 + 宽 Span 或专门的 OBW 功能测。
+- Besides the 2475 MHz main line there are several discrete side lines, so what was captured is not a pure single carrier; confirm the flashed firmware really has `SI24R1_TEST_MODE = 1` before using this as a CW reference.
+- A swept analyser can only show the narrow-band shape qualitatively; occupied bandwidth (the ≥500 kHz criterion) must be measured in mode 2 with a wide span or a dedicated OBW function.
 
-## 6. 备注
+## 6. Notes
 
-模式 0 的串口日志与截图见 [`../AI8051U-Demo/`](../AI8051U-Demo/)；两工程引脚、驱动一致，可互相替换烧录。
+Mode 0 UART logs and screenshots are in [`../AI8051U-Demo/`](../AI8051U-Demo/); the two projects share pins and driver and can be swapped freely.
